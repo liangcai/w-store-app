@@ -1,13 +1,16 @@
 {
-  "miniprogramRoot": "./dist",
-  "projectname": "w-store-app",
-  "description": "",
-  "appid": "touristappid",
-  "setting": {
-    "urlCheck": true,
-    "es6": false,
-    "postcss": false,
-    "minified": false
-  },
-  "compileType": "miniprogram"
+	"miniprogramRoot": "dist/",
+	"projectname": "w-store-app",
+	"description": "",
+	"appid": "wxb5b13bb5eaba6c7e",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false
+	},
+	"compileType": "miniprogram",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {}
 }

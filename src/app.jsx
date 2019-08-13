@@ -6,7 +6,8 @@ import Index from './pages/index'
 
 import configStore from './store'
 
-import './app.scss'
+// import './app.scss'
+import './assets/styles/app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
