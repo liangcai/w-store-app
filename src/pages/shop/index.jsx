@@ -1,5 +1,7 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import { View } from '@tarojs/components'
+import SearchBar from "../../components/search-bar"
+
 
 class ShopIndex extends Component {
   config = {
@@ -9,8 +11,11 @@ class ShopIndex extends Component {
 
   render() {
     return (
-      <View className='page-demo'>
-        ShopIndex
+      <View>
+        <SearchBar />
+        <View className='page-demo'>
+          ShopIndex
+        </View>
       </View>
     )
   }
