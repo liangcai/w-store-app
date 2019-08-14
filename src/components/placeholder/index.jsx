@@ -25,7 +25,7 @@ class Placeholder extends Component {
     return (
       <View>
         {
-          // show &&
+          show &&
           items.map(i =>
             <View key={i} className={classValue}>
               <View className='image rectangular'></View>
