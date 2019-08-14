@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View} from '@tarojs/components'
+import { View } from '@tarojs/components'
 import SearchBar from "../../components/search-bar"
 import ProductList from "../../components/product-list";
+import Placeholder from "../../components/placeholder";
 
 
 class ShopIndex extends Component {
@@ -21,7 +22,7 @@ class ShopIndex extends Component {
     })
 
     if (process.env.NODE_ENV == 'development') {
-      setTimeout (() => {
+      setTimeout(() => {
         this.setState({
           products: response.data,
           placeholder: false,
@@ -35,24 +36,17 @@ class ShopIndex extends Component {
     }
 
 
-
   }
 
 
   render() {
-    const { products, placeholder } = this.state
+    const {products, placeholder} = this.state
 
     return (
       <View>
-        <SearchBar />
-        {placeholder &&
-        <View className='ui placeholder'>
-          <View className='image rectangular'></View>
-          <View className='line'></View>
-          <View className='very short line'></View>
-        </View>
-        }
-        <ProductList data={products} />
+        <SearchBar/>
+        <Placeholder show={placeholder}/>
+        <ProductList data={products}/>
       </View>
     )
   }
