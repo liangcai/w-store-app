@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import className from 'classnames'
 
 class Placeholder extends Component {
   static options = {
@@ -7,10 +8,16 @@ class Placeholder extends Component {
   }
 
   static defaultProps = {
-    show: false
+    className: '',
+    show: false,
+    quantity: '1'
   }
 
   render() {
+    const classValue = className(
+      'ui placeholder',
+      this.props.className
+    )
     const quantity = parseInt(this.props.quantity)
     const items = [...Array(quantity).keys()]
     const {show} = this.props
@@ -18,9 +25,9 @@ class Placeholder extends Component {
     return (
       <View>
         {
-          show &&
+          // show &&
           items.map(i =>
-            <View key={i} className='ui placeholder'>
+            <View key={i} className={classValue}>
               <View className='image rectangular'></View>
               <View className='line'></View>
               <View className='very short line'></View>

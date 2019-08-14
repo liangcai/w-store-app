@@ -45,7 +45,7 @@ class ShopIndex extends Component {
     return (
       <View >
         <SearchBar />
-        <Placeholder show={placeholder} quantity='10' />
+        <Placeholder className='m-3' show={placeholder} quantity='10' />
         <ProductList data={products} />
       </View >
     )
