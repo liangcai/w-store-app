@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View} from '@tarojs/components'
 import SearchBar from "../../components/search-bar"
-import ProductList from "../../components/product_list";
+import ProductList from "../../components/product-list";
 
 
 class ShopIndex extends Component {
