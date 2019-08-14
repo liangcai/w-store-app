@@ -11,17 +11,21 @@ class Placeholder extends Component {
   }
 
   render() {
-    const { show } = this.props
+    const quantity = parseInt(this.props.quantity)
+    const items = [...Array(quantity).keys()]
+    const {show} = this.props
 
     return (
       <View>
         {
           show &&
-        <View className='ui placeholder'>
-          <View className='image rectangular'></View>
-          <View className='line'></View>
-          <View className='very short line'></View>
-        </View>
+          items.map(i =>
+            <View key={i} className='ui placeholder'>
+              <View className='image rectangular'></View>
+              <View className='line'></View>
+              <View className='very short line'></View>
+            </View>
+          )
         }
       </View>
     )

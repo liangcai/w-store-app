@@ -43,11 +43,11 @@ class ShopIndex extends Component {
     const {products, placeholder} = this.state
 
     return (
-      <View>
-        <SearchBar/>
-        <Placeholder show={placeholder}/>
-        <ProductList data={products}/>
-      </View>
+      <View >
+        <SearchBar />
+        <Placeholder show={placeholder} quantity='10' />
+        <ProductList data={products} />
+      </View >
     )
   }
 }
