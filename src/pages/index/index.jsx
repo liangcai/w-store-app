@@ -4,7 +4,7 @@ import { connect } from '@tarojs/redux'
 
 import { add, minus, asyncAdd } from '../../actions/counter'
 
-import { AtButton } from 'taro-ui'
+import { AtButton, AtList, AtListItem } from 'taro-ui'
 import './index.scss'
 
 
@@ -27,6 +27,10 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  state = {
+      products: []
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -37,14 +41,29 @@ class Index extends Component {
 
   componentDidHide () { }
 
+  async componentWillMount() {
+    const response = await Taro.request({
+      url: `${API_WS}/products`
+    })
+
+    this.setState({
+      products: response.data
+    })
+
+    console.log('state:', this.state)
+  }
+
   render () {
+      const { products } = this.state
     return (
       <View className='index'>
-        <AtButton type='primary' className='my-3' onClick={this.props.add}>+</AtButton>
-        <AtButton type='primary' className='my-3' onClick={this.props.dec}>-</AtButton>
-        <AtButton type='primary' className='my-3' onClick={this.props.asyncAdd}>async</AtButton>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World</Text></View>
+        <AtList>
+          {
+            products.map(product =>
+              <AtListItem key={product.id} arrow='right' thumb={ product.images[0].src } title={ product.name } note={ '￥' + product.price } />
+            )
+          }
+        </AtList>
       </View>
     )
   }
