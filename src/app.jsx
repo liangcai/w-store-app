@@ -22,6 +22,8 @@ class App extends Component {
   config = {
     pages: [
       'pages/shop/index',
+      'pages/shop/cart',
+      'pages/shop/profile',
       'pages/index/index'
     ],
     window: {
@@ -29,6 +31,31 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#666',
+      selectedColor: '#000',
+      backgroundColor: '#fff',
+      list: [
+        {
+          pagePath: 'pages/shop/index',
+          iconPath: 'assets/icons/store.png',
+          selectedIconPath: 'assets/icons/store-active.png',
+          text: '商店'
+        },
+        {
+          pagePath: 'pages/shop/cart',
+          iconPath: 'assets/icons/shopping-basket.png',
+          selectedIconPath: 'assets/icons/shopping-basket-active.png',
+          text: '商店'
+        },
+        {
+          pagePath: 'pages/shop/profile',
+          iconPath: 'assets/icons/profile.png',
+          selectedIconPath: 'assets/icons/profile-active.png',
+          text: '商店'
+        }
+      ]
     }
   }
 
