@@ -17,6 +17,7 @@ class ShopIndex extends Component {
     total: 0,
     pageSize: 2,
     current: 1,
+    serviceError: false,
   }
 
 
@@ -25,33 +26,49 @@ class ShopIndex extends Component {
   }
 
   async fetchData() {
-    const response = await Taro.request({
-      url: `${API_WS}/products?_limit=${this.state.pageSize}&_page=${this.state.current}`
-    })
-
-    const {data, header} = response
-
-    if (process.env.NODE_ENV == 'development') {
-      setTimeout(() => {
-        this.setState({
-          products: data,
-          placeholder: false,
-          total: header['X-Total-Count']
-        })
-      }, 2000)
-    } else {
-      this.setState({
-        products: data,
-        placeholder: false,
-        total: header['X-Total-Count']
+    try {
+      const response = await Taro.request({
+        url: `${API_WS}/products?_limit=${this.state.pageSize}&_page=${this.state.current}`
       })
+
+      const {data, header, statusCode} = response
+
+      switch (statusCode) {
+        case 200:
+          if (process.env.NODE_ENV == 'development') {
+            setTimeout(() => {
+              this.setState({
+                products: data,
+                placeholder: false,
+                total: header['X-Total-Count']
+              })
+            }, 2000)
+          } else {
+            this.setState({
+              products: data,
+              placeholder: false,
+              total: header['X-Total-Count']
+            })
+          }
+          break;
+        default:
+          throw new Error('出问题了！')
+          break;
+      }
+
+    } catch (error) {
+      this.setState({
+        serviceError: true
+      })
+      console('serviceError status: ', this.state.serviceError, error)
     }
+
   }
 
   onPageChange({current}) {
     this.setState({
-      current,
-      placeholder: true
+        current,
+        placeholder: true
       }, () => {
         this.fetchData()
       }
@@ -59,21 +76,30 @@ class ShopIndex extends Component {
   }
 
   render() {
-    const {products, placeholder, total, pageSize, current} = this.state
+    const {products, placeholder, total, pageSize, current, serviceError} = this.state
 
+
+    const page = (<View >
+      <SearchBar />
+      <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
+      {!placeholder && <ProductList data={products} />}
+      <AtPagination
+        icon
+        total={parseInt(total)}
+        pageSize={pageSize}
+        current={current}
+        className='my-4'
+        onPageChange={this.onPageChange.bind(this)}
+      />
+    </View >)
+    const errorPage = (
+      <View className='page-demo' >
+        服务出现问题，请稍后再试。
+      </View >
+    )
     return (
       <View >
-        <SearchBar />
-        <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
-        {!placeholder && <ProductList data={products} />}
-        <AtPagination
-          icon
-          total={parseInt(total)}
-          pageSize={pageSize}
-          current={current}
-          className='my-4'
-          onPageChange={this.onPageChange.bind(this)}
-        />
+        {serviceError ? errorPage : page}
       </View >
     )
   }
