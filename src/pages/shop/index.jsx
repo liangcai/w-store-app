@@ -1,6 +1,8 @@
-import Taro, {Component} from '@tarojs/taro'
-import {View, Text} from '@tarojs/components'
+import Taro, { Component } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import SearchBar from "../../components/search-bar"
+import ProductList from "../../components/product-list";
+import Placeholder from "../../components/placeholder";
 
 
 class ShopIndex extends Component {
@@ -8,54 +10,44 @@ class ShopIndex extends Component {
     navigationBarTitleText: "W-Store"
   }
 
-  switchTab() {
-    Taro.switchTab({
-      url: '/pages/shop/cart'
+  state = {
+    products: [],
+    placeholder: true,
+  }
+
+
+  async componentWillMount() {
+    const response = await Taro.request({
+      url: `${API_WS}/products`
     })
+
+    if (process.env.NODE_ENV == 'development') {
+      setTimeout(() => {
+        this.setState({
+          products: response.data,
+          placeholder: false,
+        })
+      }, 2000)
+    } else {
+      this.setState({
+        products: response.data,
+        placeholder: false,
+      })
+    }
+
+
   }
 
-  setTabBarBadge(type) {
-    switch (type) {
-      case 'badge':
-        Taro.setTabBarBadge({
-          index: 1,
-          text: '1'
-        })
-        break;
-      case 'dot':
-        Taro.showTabBarRedDot({
-          index: 1
-        })
-        break;
-    }
-  }
-
-  removeTabBarBadge(type) {
-    switch(type) {
-      case 'badge':
-        Taro.removeTabBarBadge({
-          index: 1,
-        })
-        break;
-      case 'dot':
-        Taro.hideTabBarRedDot({
-          index: 1
-        })
-        break;
-    }
-  }
 
   render() {
+    const {products, placeholder} = this.state
+
     return (
-      <View>
+      <View >
         <SearchBar />
-        <View className='page-demo'>
-          ShopIndex
-          <Text className='mx-1' onClick={this.switchTab.bind(this)}>SwitchTab</Text>
-          <Text className='mx-1' onClick={this.setTabBarBadge.bind(this, 'badge')}>Add</Text>
-          <Text className='mx-1' onClick={this.removeTabBarBadge.bind(this, 'badge')}>Remove</Text>
-        </View>
-      </View>
+        <Placeholder className='m-3' show={placeholder} quantity='10' />
+        <ProductList data={products} />
+      </View >
     )
   }
 }
