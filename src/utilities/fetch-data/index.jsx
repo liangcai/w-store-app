@@ -9,6 +9,8 @@ async function fetchData({
                            success = () => {
                            },
                            fail = () => {
+                           },
+                           complete = () => {
                            }
                          }) {
   const queryParams = {}
@@ -47,6 +49,7 @@ async function fetchData({
     console('serviceError status: ', this.state.serviceError, error)
   }
 
+  complete()
 }
 
 export default fetchData
