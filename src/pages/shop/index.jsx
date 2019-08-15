@@ -51,7 +51,7 @@ class ShopIndex extends Component {
         <SearchBar />
         <Placeholder className='m-3' show={placeholder} quantity='10' />
         <ProductList data={products} />
-        <AtPagination total={parseInt(total)} pageSize={pageSize} current={current} icon='true' />
+        <AtPagination total={parseInt(total)} pageSize={pageSize} current={current} icon />
       </View >
     )
   }
