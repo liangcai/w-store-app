@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import { AtPagination } from "taro-ui";
 import SearchBar from "../../components/search-bar"
 import ProductList from "../../components/product-list";
 import Placeholder from "../../components/placeholder";
@@ -13,6 +14,9 @@ class ShopIndex extends Component {
   state = {
     products: [],
     placeholder: true,
+    total: 0,
+    pageSize: 2,
+    current: 1,
   }
 
 
@@ -40,13 +44,14 @@ class ShopIndex extends Component {
 
 
   render() {
-    const {products, placeholder} = this.state
+    const {products, placeholder, total, pageSize, current} = this.state
 
     return (
       <View >
         <SearchBar />
         <Placeholder className='m-3' show={placeholder} quantity='10' />
         <ProductList data={products} />
+        <AtPagination total={parseInt(total)} pageSize={pageSize} current={current} icon='true' />
       </View >
     )
   }
