@@ -24,6 +24,22 @@ class ShopIndex extends Component {
     pageSize: 2,
     current: 1,
     serviceError: false,
+    search: '',
+  }
+
+  onChangeSearchBar(value) {
+    console.log(value)
+    this.setState({
+      search: value
+    })
+  }
+
+  onActionClickSearchBar() {
+    console.log('action click search')
+  }
+
+  onConfirmSearchBar() {
+    console.log('confirm search')
   }
 
   fetchDataSuccess(response) {
@@ -71,9 +87,13 @@ class ShopIndex extends Component {
   render() {
     const {products, placeholder, total, pageSize, current, serviceError} = this.state
 
-
     const page = (<View >
-      <SearchBar />
+      <SearchBar
+        value={this.state.search}
+        onChange={this.onChangeSearchBar.bind(this)}
+        onActionClick={this.onActionClickSearchBar.bind(this)}
+        onConfirm={this.onConfirmSearchBar.bind(this)}
+      />
       <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
       {!placeholder && <ProductList data={products} />}
       <AtPagination
