@@ -158,9 +158,9 @@ class ShopIndex extends Component {
     )
   }
 
-  onClickListItem(id) {
+  onClickListItem({id, name}) {
     Taro.navigateTo({
-      url: `/pages/product/show?id=${id}`
+      url: `/pages/product/show?id=${id}&name=${name}`
     })
   }
 
