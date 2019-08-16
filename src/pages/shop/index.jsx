@@ -5,6 +5,7 @@ import _ from 'lodash';
 import SearchBar from "../../components/search-bar"
 import ProductList from "../../components/product-list";
 import Placeholder from "../../components/placeholder";
+import ErrorPage from "../../components/error-page";
 import fetchData from "../../utilities/fetch-data";
 
 
@@ -164,7 +165,7 @@ class ShopIndex extends Component {
   }
 
   render() {
-    const {products, placeholder, total, pageSize, current, serviceError, searching} = this.state
+    const {products, placeholder, total, pageSize, current, serviceError, searching, errorPageMessage} = this.state
 
     const page = (<View >
       <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
@@ -179,9 +180,7 @@ class ShopIndex extends Component {
       />}
     </View >)
     const errorPage = (
-      <View className='page-demo' >
-        {this.state.errorPageMessage}
-      </View >
+        <ErrorPage content={errorPageMessage} />
     )
     return (
       <View >

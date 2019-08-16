@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
+import ErrorPage from "../../components/error-page";
 
 class ProductShow extends Component {
   config = {
@@ -78,9 +79,7 @@ class ProductShow extends Component {
     )
 
     const errorPage = (
-      <View className='page-demo' >
-        {errorPageMessage}
-      </View >
+      <ErrorPage content={errorPageMessage} />
     )
 
     return (
