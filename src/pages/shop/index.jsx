@@ -34,17 +34,19 @@ class ShopIndex extends Component {
     console.log(`search: ${value}`)
     this.setState({
       searching: true,
+      current: 1,
+    }, () => {
+      this.fetchData({
+        resource: 'products',
+        search: value,
+        page: this.state.current,
+        pageSize: this.state.pageSize,
+        success: this.fetchDataSuccess.bind(this),
+        fail: this.fetchDataFail.bind(this),
+        complete: this.fetchDataComplete.bind(this),
+      })
     })
 
-    this.fetchData({
-      resource: 'products',
-      search: value,
-      page: this.state.current,
-      pageSize: this.state.pageSize,
-      success: this.fetchDataSuccess.bind(this),
-      fail: this.fetchDataFail.bind(this),
-      complete: this.fetchDataComplete.bind(this),
-    })
   }
 
   debounceSearch = _.debounce(this.search, 1000)
@@ -73,8 +75,16 @@ class ShopIndex extends Component {
     this.setState({
       products: data,
       placeholder: false,
+      serviceError: false,
       total: header['X-Total-Count']
     })
+
+    if (data.length === 0) {
+      this.setState({
+        serviceError: true,
+        errorPageMessage: '没有可以显示的内容。'
+      })
+    }
   }
 
   fetchDataFail(error) {
@@ -133,14 +143,14 @@ class ShopIndex extends Component {
     const page = (<View >
       <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
       {!placeholder && <ProductList data={products} />}
-      <AtPagination
+      {total > pageSize && <AtPagination
         icon
         total={parseInt(total)}
         pageSize={pageSize}
         current={current}
         className='my-4'
         onPageChange={this.onPageChange.bind(this)}
-      />
+      />}
     </View >)
     const errorPage = (
       <View className='page-demo' >
