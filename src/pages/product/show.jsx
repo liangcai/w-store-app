@@ -11,6 +11,8 @@ class ProductShow extends Component {
   state = {
     product: {},
     placeholder: true,
+    serviceError: false,
+    errorPageMessage: '',
   }
 
   constructor() {
@@ -30,7 +32,7 @@ class ProductShow extends Component {
 
   fetchDataComplete() {
     if (process.env.NODE_ENV === 'development') {
-      setTimeout(() =>{
+      setTimeout(() => {
         this.setState({
           placeholder: false
         })
@@ -42,6 +44,13 @@ class ProductShow extends Component {
     }
   }
 
+  fetchDataFail(error) {
+    this.setState({
+      serviceError: true,
+      errorPageMessage: error.message,
+    })
+  }
+
   componentWillMount() {
     const {id} = this.$router.params
 
@@ -50,20 +59,34 @@ class ProductShow extends Component {
       id,
       success: this.fetchDataSuccess.bind(this),
       complete: this.fetchDataComplete.bind(this),
+      fail: this.fetchDataFail.bind(this),
     })
   }
 
   render() {
-    const {product, placeholder} = this.state
-    return (
+    const {product, placeholder, serviceError, errorPageMessage} = this.state
+
+    const page = (
       <View >
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
-          <View className='page-demo'>
-            {product.name}
-          </View>
+        <View className='page-demo' >
+          {product.name}
+        </View >
         }
       </View >
+    )
+
+    const errorPage = (
+      <View className='page-demo' >
+        {errorPageMessage}
+      </View >
+    )
+
+    return (
+      <view >
+        {serviceError ? errorPage : page}
+      </view >
     )
   }
 }
