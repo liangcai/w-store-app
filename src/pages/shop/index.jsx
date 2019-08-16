@@ -10,7 +10,7 @@ import fetchData from "../../utilities/fetch-data";
 
 class ShopIndex extends Component {
   constructor() {
-    super()
+    super(...arguments)
     this.fetchData = fetchData
   }
 

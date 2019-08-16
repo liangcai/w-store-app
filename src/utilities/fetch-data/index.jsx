@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 async function fetchData({
                            resource = '',
+                           id = '',
                            search = '',
                            page = '',
                            pageSize = '',
@@ -20,12 +21,14 @@ async function fetchData({
   if (page) queryParams._page = page
   if (pageSize) queryParams._limit = pageSize
 
+  const path = id ? `${resource}/${id}` : resource
+
   if (_.isEmpty(queryParams)) {
     queryParams = null
   }
 
   const url = buildUrl(API_WS, {
-    path: resource,
+    path: path,
     queryParams
   })
 
