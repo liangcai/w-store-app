@@ -21,6 +21,9 @@ class ProductShow extends Component {
     this.setState({
       product: data
     })
+    Taro.setNavigationBarTitle({
+      title: data.name
+    })
   }
 
   componentWillMount() {
