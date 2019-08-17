@@ -22,7 +22,7 @@ class ProductPageTab extends Component {
         <AtTabs
           current={activeTab}
           tabList={tabList}
-          onClick={this.props.onClick.bind(this)}
+          onClick={this.props.onClick}
         >
           <AtTabsPane className='mt-4' current={activeTab} index={0}>
             <RichTextWxParse content={product.description} />

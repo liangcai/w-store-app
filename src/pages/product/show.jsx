@@ -108,8 +108,9 @@ class ProductShow extends Component {
 
   onClickTab(activeTab) {
     this.setState({
-      activeTab: activeTab
+      activeTab
     })
+    console.log('修改activeTab', activeTab)
   }
 
   render() {
@@ -125,7 +126,7 @@ class ProductShow extends Component {
         {!placeholder &&
         <View>
           <ProductPageCard data={product} indicatorDots={indicatorDots} />
-          <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab} />
+          <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
         </View>
         }
       </View>
