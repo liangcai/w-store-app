@@ -117,17 +117,20 @@ class ShopIndex extends Component {
   }
 
   fetchDataComplete() {
-    if (process.env.NODE_ENV === 'development') {
-      setTimeout(() => {
-        this.setState({
-          searching: false
-        })
-      }, 2000)
-    } else {
-      this.setState({
-        searching: false
-      })
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       searching: false
+    //     })
+    //   }, 2000)
+    // } else {
+    //   this.setState({
+    //     searching: false
+    //   })
+    // }
+    this.setState({
+      searching: false,
+    })
     Taro.stopPullDownRefresh()
   }
 
@@ -162,6 +165,7 @@ class ShopIndex extends Component {
     Taro.navigateTo({
       url: `/pages/product/show?id=${id}&name=${name}`
     })
+    console.log(`url: id ${id} name ${name}`)
   }
 
   render() {

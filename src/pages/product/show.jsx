@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text, Image, RichText } from '@tarojs/components'
+import { AtBadge } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
 import ErrorPage from "../../components/error-page";
@@ -22,7 +23,7 @@ class ProductShow extends Component {
     super(...arguments)
     this.fetchData = fetchData
 
-    const {id=1, name} = this.$router.params
+    const {id = 1, name} = this.$router.params
     this.id = id
     this.name = name
   }
@@ -30,6 +31,7 @@ class ProductShow extends Component {
   onPullDownRefresh() {
     this.setState({
       serviceError: false,
+      placeholder: true,
     }, () => {
       this.fetchData({
         resource: 'products',
@@ -44,7 +46,7 @@ class ProductShow extends Component {
   fetchDataSuccess(response) {
     const {data} = response
     this.setState({
-      product: data
+      product: data,
     })
     Taro.setNavigationBarTitle({
       title: data.name
@@ -52,17 +54,20 @@ class ProductShow extends Component {
   }
 
   fetchDataComplete() {
-    if (process.env.NODE_ENV === 'development') {
-      setTimeout(() => {
-        this.setState({
-          placeholder: false
-        })
-      }, 1000)
-    } else {
-      this.setState({
-        placeholder: false
-      })
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       placeholder: false
+    //     })
+    //   }, 1000)
+    // } else {
+    //   this.setState({
+    //     placeholder: false
+    //   })
+    // }
+    this.setState({
+      placeholder: false
+    })
     Taro.stopPullDownRefresh()
   }
 
@@ -84,23 +89,41 @@ class ProductShow extends Component {
       resource: 'products',
       id: this.id,
       success: this.fetchDataSuccess.bind(this),
-      complete: this.fetchDataComplete.bind(this),
       fail: this.fetchDataFail.bind(this),
+      complete: this.fetchDataComplete.bind(this),
     })
   }
 
   render() {
     const {product, placeholder, serviceError, errorPageMessage} = this.state
-
+    console.log('product: ', product, 'placeholder: ', placeholder)
     const page = (
-      <View >
+      <View>
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
-        <View className='page-demo' >
-          {product.name}
-        </View >
+        <View key={product.id} className='card mb-2'>
+          <Image className='card-img-top' src={product.images[0].src} mode='aspectFit' />
+          <View className='card-body m-3'>
+            <View className='card-title mb-2'>
+              <View className='card-title-text'>
+                {product.on_sale &&
+                <AtBadge className='card-title-badge' value='sale' />
+                }
+                {product.name}
+              </View>
+            </View>
+            <View className='card-subtitle m-3'>
+              {product.on_sale &&
+              <Text className='mr-2 text-muted text-through'>{'￥' + product.regular_price}</Text>}
+              <Text>{'￥' + product.price}</Text>
+            </View>
+            <View className='card-text'>
+              <RichText nodes={product.short_description} />
+            </View>
+          </View>
+        </View>
         }
-      </View >
+      </View>
     )
 
     const errorPage = (
@@ -108,9 +131,9 @@ class ProductShow extends Component {
     )
 
     return (
-      <view >
+      <view>
         {serviceError ? errorPage : page}
-      </view >
+      </view>
     )
   }
 }
