@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image, RichText, Swiper, SwiperItem } from '@tarojs/components'
-import { AtBadge } from "taro-ui";
+import { AtBadge, AtTabs, AtTabsPane } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
 import ErrorPage from "../../components/error-page";
@@ -19,6 +19,7 @@ class ProductShow extends Component {
     serviceError: false,
     errorPageMessage: '',
     indicatorDots: false,
+    activeTab: 0,
   }
 
   constructor() {
@@ -103,51 +104,75 @@ class ProductShow extends Component {
     })
   }
 
+  onClick(activeTab) {
+    this.setState({
+      activeTab: activeTab
+    })
+  }
+
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots} = this.state
-    console.log('product: ', product, 'placeholder: ', placeholder)
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab} = this.state
+    const tabList = [
+      {title: '描述'},
+      {title: '参数'},
+    ]
+
     const page = (
       <View>
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
-          <View>
-        <View key={product.id} className='card mb-2'>
-          <Swiper
-            className='card-swiper'
-            indicatorDots={indicatorDots}
-            indicatorActiveColor='#e5e5e5'
-            circular
-          >
-            {product.images.map(img =>
-              <SwiperItem key={img.id}>
-                <Image className='card-img-top' src={img.src} mode='aspectFit' />
-              </SwiperItem>
-            )
-            }
-          </Swiper>
-          <View className='card-body m-3'>
-            <View className='card-title mb-2'>
-              <View className='card-title-text'>
+        <View>
+          <View key={product.id} className='card mb-2'>
+            <Swiper
+              className='card-swiper'
+              indicatorDots={indicatorDots}
+              indicatorActiveColor='#e5e5e5'
+              circular
+            >
+              {product.images.map(img =>
+                <SwiperItem key={img.id}>
+                  <Image className='card-img-top' src={img.src} mode='aspectFit' />
+                </SwiperItem>
+              )
+              }
+            </Swiper>
+            <View className='card-body m-3'>
+              <View className='card-title mb-2'>
+                <View className='card-title-text'>
+                  {product.on_sale &&
+                  <AtBadge className='card-title-badge' value='sale' />
+                  }
+                  {product.name}
+                </View>
+              </View>
+              <View className='card-subtitle m-3'>
                 {product.on_sale &&
-                <AtBadge className='card-title-badge' value='sale' />
-                }
-                {product.name}
+                <Text className='mr-2 text-muted text-through'>{'￥' + product.regular_price}</Text>}
+                <Text>{'￥' + product.price}</Text>
+              </View>
+              <View className='card-text'>
+                <RichText nodes={product.short_description} />
               </View>
             </View>
-            <View className='card-subtitle m-3'>
-              {product.on_sale &&
-              <Text className='mr-2 text-muted text-through'>{'￥' + product.regular_price}</Text>}
-              <Text>{'￥' + product.price}</Text>
-            </View>
-            <View className='card-text'>
-              <RichText nodes={product.short_description} />
-            </View>
+          </View>
+          {/*<View>*/}
+          {/*  <RichTextWxParse className='mx-3 my-5' content={product.description} />*/}
+          {/*</View>*/}
+          <View className='mx-3 my-5'>
+            <AtTabs
+              current={activeTab}
+              tabList={tabList}
+              onClick={this.onClick.bind(this)}
+            >
+              <AtTabsPane className='mt-4' current={activeTab} index={0}>
+                <RichTextWxParse content={product.description} />
+              </AtTabsPane>
+              <AtTabsPane className='mt-4' current={activeTab} index={1}>
+                <View>参数</View>
+              </AtTabsPane>
+            </AtTabs>
           </View>
         </View>
-            <View>
-              <RichTextWxParse className='mx-3 my-5' content={product.description} />
-            </View>
-          </View>
         }
       </View>
     )
