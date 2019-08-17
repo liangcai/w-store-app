@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image, RichText, Swiper, SwiperItem } from '@tarojs/components'
-import { AtBadge, AtTabs, AtTabsPane } from "taro-ui";
+import { AtBadge, AtTabs, AtTabsPane, AtListItem, AtList } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
 import ErrorPage from "../../components/error-page";
@@ -168,7 +168,17 @@ class ProductShow extends Component {
                 <RichTextWxParse content={product.description} />
               </AtTabsPane>
               <AtTabsPane className='mt-4' current={activeTab} index={1}>
-                <View>参数</View>
+                <AtList>
+                  {product.attributes.map(attr =>
+                    <AtListItem
+                      key={attr.id}
+                      hasBorder={false}
+                      title={attr.name}
+                      note={attr.options.toString()}
+                    />
+                  )
+                  }
+                </AtList>
               </AtTabsPane>
             </AtTabs>
           </View>
