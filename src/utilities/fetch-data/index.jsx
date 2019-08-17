@@ -45,7 +45,7 @@ async function fetchData({
     if (process.env.NODE_ENV === 'development') {
       await new Promise(resolve => {
         console.log('development环境下延迟两秒')
-        setTimeout(resolve, 5000)
+        setTimeout(resolve, 2000)
       })
     }
 

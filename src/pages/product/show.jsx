@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text, Image, RichText } from '@tarojs/components'
+import { View, Text, Image, RichText, Swiper, SwiperItem } from '@tarojs/components'
 import { AtBadge } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
@@ -17,6 +17,7 @@ class ProductShow extends Component {
     placeholder: true,
     serviceError: false,
     errorPageMessage: '',
+    indicatorDots: false,
   }
 
   constructor() {
@@ -48,6 +49,13 @@ class ProductShow extends Component {
     this.setState({
       product: data,
     })
+
+    if (data.images.length > 1) {
+      this.setState({
+        indicatorDots: true
+      })
+    }
+
     Taro.setNavigationBarTitle({
       title: data.name
     })
@@ -95,14 +103,26 @@ class ProductShow extends Component {
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots} = this.state
     console.log('product: ', product, 'placeholder: ', placeholder)
     const page = (
       <View>
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
         <View key={product.id} className='card mb-2'>
-          <Image className='card-img-top' src={product.images[0].src} mode='aspectFit' />
+          <Swiper
+            className='card-swiper'
+            indicatorDots={indicatorDots}
+            indicatorActiveColor='#e5e5e5'
+            circular
+          >
+            {product.images.map(img =>
+              <SwiperItem key={img.id}>
+                <Image className='card-img-top' src={img.src} mode='aspectFit' />
+              </SwiperItem>
+            )
+            }
+          </Swiper>
           <View className='card-body m-3'>
             <View className='card-title mb-2'>
               <View className='card-title-text'>
