@@ -42,15 +42,26 @@ async function fetchData({
 
     const {statusCode} = response
 
+    if (process.env.NODE_ENV === 'development') {
+      await new Promise(resolve => {
+        console.log('development环境下延迟两秒')
+        setTimeout(resolve, 5000)
+      })
+    }
+
     switch (statusCode) {
       case 200:
-        if (process.env.NODE_ENV == 'development') {
-          setTimeout(() => {
-            success(response)
-          }, 2000)
-        } else {
-          success(response)
-        }
+        // if (process.env.NODE_ENV == 'development') {
+        //   setTimeout(() => {
+        //     success(response)
+        //     console.log('fetchDataSuccess', resource)
+        //   }, 1000)
+        // } else {
+        //   success(response)
+        //   console.log('fetchDataSuccess', resource)
+        // }
+        success(response)
+        console.log('fetchDataSuccess', resource)
         break;
       default:
         throw new Error('出问题了！')
@@ -60,6 +71,7 @@ async function fetchData({
   }
 
   complete()
+  console.log('fetchDataComplete', resource)
 }
 
 export default fetchData
