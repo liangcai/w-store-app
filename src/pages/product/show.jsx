@@ -4,6 +4,7 @@ import { AtBadge } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
 import ErrorPage from "../../components/error-page";
+import RichTextWxParse from "../../components/rich-text-wx-parse";
 
 class ProductShow extends Component {
   config = {
@@ -109,6 +110,7 @@ class ProductShow extends Component {
       <View>
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
+          <View>
         <View key={product.id} className='card mb-2'>
           <Swiper
             className='card-swiper'
@@ -142,6 +144,10 @@ class ProductShow extends Component {
             </View>
           </View>
         </View>
+            <View>
+              <RichTextWxParse className='mx-3 my-5' content={product.description} />
+            </View>
+          </View>
         }
       </View>
     )
