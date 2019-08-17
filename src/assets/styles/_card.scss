@@ -24,4 +24,13 @@
   &-subtitle {
     font-size: $font-size-lg;
   }
+
+  &-text {
+    font-size: $font-size-lg;
+    color: $color-black-1;
+  }
+
+  &-swiper {
+    height: 320px * $hd;
+  }
 }

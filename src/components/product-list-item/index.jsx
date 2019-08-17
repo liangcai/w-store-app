@@ -15,7 +15,7 @@ class ProductListItem extends Component {
   render() {
     const {data: product} = this.props
     return (
-      <View key={product.id} className='card mb-2'>
+      <View key={product.id} className='card mb-2' onClick={this.props.onClick}>
         <Image className='card-img-top' src={product.images[0].src} mode='aspectFit' />
         <View className='card-body text-center'>
           {/*<View className='card-title mb-2'>{product.name}</View>*/}

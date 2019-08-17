@@ -5,17 +5,20 @@ import _ from 'lodash';
 import SearchBar from "../../components/search-bar"
 import ProductList from "../../components/product-list";
 import Placeholder from "../../components/placeholder";
+import ErrorPage from "../../components/error-page";
 import fetchData from "../../utilities/fetch-data";
 
 
 class ShopIndex extends Component {
   constructor() {
-    super()
+    super(...arguments)
     this.fetchData = fetchData
   }
 
   config = {
-    navigationBarTitleText: "W-Store"
+    navigationBarTitleText: "W-Store",
+    enablePullDownRefresh: true,
+    backgroundTextStyle: 'dark',
   }
 
   state = {
@@ -28,6 +31,23 @@ class ShopIndex extends Component {
     search: '',
     searching: false,
     errorPageMessage: '',
+  }
+
+  onPullDownRefresh() {
+    this.setState({
+      serviceError: false,
+      current: 1,
+    }, () => {
+      this.fetchData({
+        resource: 'products',
+        search: this.state.search,
+        page: this.state.current,
+        pageSize: this.state.pageSize,
+        success: this.fetchDataSuccess.bind(this),
+        fail: this.fetchDataFail.bind(this),
+        complete: this.fetchDataComplete.bind(this),
+      })
+    })
   }
 
   search(value = '') {
@@ -97,17 +117,21 @@ class ShopIndex extends Component {
   }
 
   fetchDataComplete() {
-    if (process.env.NODE_ENV === 'development') {
-      setTimeout(() => {
-        this.setState({
-          searching: false
-        })
-      }, 2000)
-    } else {
-      this.setState({
-        searching: false
-      })
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       searching: false
+    //     })
+    //   }, 2000)
+    // } else {
+    //   this.setState({
+    //     searching: false
+    //   })
+    // }
+    this.setState({
+      searching: false,
+    })
+    Taro.stopPullDownRefresh()
   }
 
   async componentWillMount() {
@@ -137,12 +161,19 @@ class ShopIndex extends Component {
     )
   }
 
+  onClickListItem({id, name}) {
+    Taro.navigateTo({
+      url: `/pages/product/show?id=${id}&name=${name}`
+    })
+    console.log(`url: id ${id} name ${name}`)
+  }
+
   render() {
-    const {products, placeholder, total, pageSize, current, serviceError, searching} = this.state
+    const {products, placeholder, total, pageSize, current, serviceError, searching, errorPageMessage} = this.state
 
     const page = (<View >
       <Placeholder className='m-3' show={placeholder} quantity={pageSize} />
-      {!placeholder && <ProductList data={products} />}
+      {!placeholder && <ProductList data={products} onClickListItem={this.onClickListItem} />}
       {total > pageSize && <AtPagination
         icon
         total={parseInt(total)}
@@ -153,9 +184,7 @@ class ShopIndex extends Component {
       />}
     </View >)
     const errorPage = (
-      <View className='page-demo' >
-        {this.state.errorPageMessage}
-      </View >
+        <ErrorPage content={errorPageMessage} />
     )
     return (
       <View >
