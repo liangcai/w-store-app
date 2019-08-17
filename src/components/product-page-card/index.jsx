@@ -9,7 +9,8 @@ class ProductPageCard extends Component {
 
   static defaultProps = {
     data: {},
-    indicatorDots: false
+    indicatorDots: false,
+    onClick: () => {}
   }
 
   render() {
