@@ -115,6 +115,10 @@ class ProductShow extends Component {
     console.log('修改activeTab', activeTab)
   }
 
+  onClickTabBar(item) {
+    console.log(`点击：${item}`)
+  }
+
   render() {
     const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab} = this.state
     const tabList = [
@@ -131,7 +135,7 @@ class ProductShow extends Component {
           {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
           <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
           <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
-          <ProductPageTabBar />
+          <ProductPageTabBar primary='立即购买' secondary='加入购物车' icon='shopping_basket' disabled={false} disabledText='暂时无货' onClick={this.onClickTabBar} dot />
         </View>
         }
       </View>
