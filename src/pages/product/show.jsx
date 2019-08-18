@@ -9,6 +9,7 @@ import ProductPageCard from "../../components/product-page-card";
 import ProductPageTab from "../../components/product-page-tab";
 import MaterialIcon from "../../components/material-icon";
 import ProductPageTabBar from "../../components/product-page-tab-bar";
+import ProductPageActionSheet from "../../components/product-page-action-sheet";
 
 class ProductShow extends Component {
   config = {
@@ -24,6 +25,7 @@ class ProductShow extends Component {
     errorPageMessage: '',
     indicatorDots: false,
     activeTab: 0,
+    actionSheet: false,
   }
 
   constructor() {
@@ -117,10 +119,24 @@ class ProductShow extends Component {
 
   onClickTabBar(item) {
     console.log(`点击：${item}`)
+
+    switch (item) {
+      case 'primary':
+        this.setState({
+          actionSheet: true
+        })
+        break
+      case 'secondary':
+        this.setState({
+          actionSheet: true
+        })
+        break
+    }
+    console.log(`actionSheet: ${this.state.actionSheet}`)
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab, actionSheet} = this.state
     const tabList = [
       {title: '描述'},
       {title: '参数'},
@@ -135,7 +151,16 @@ class ProductShow extends Component {
           {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
           <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
           <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
-          <ProductPageTabBar primary='立即购买' secondary='加入购物车' icon='shopping_basket' disabled={false} disabledText='暂时无货' onClick={this.onClickTabBar} dot />
+          <ProductPageTabBar
+            primary='立即购买'
+            secondary='加入购物车'
+            icon='shopping_basket'
+            disabled={false}
+            disabledText='暂时无货'
+            onClick={this.onClickTabBar.bind(this)}
+            dot
+          />
+          <ProductPageActionSheet show={actionSheet} />
         </View>
         }
       </View>
