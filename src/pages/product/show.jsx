@@ -8,6 +8,7 @@ import ErrorPage from "../../components/error-page";
 import ProductPageCard from "../../components/product-page-card";
 import ProductPageTab from "../../components/product-page-tab";
 import MaterialIcon from "../../components/material-icon";
+import ProductPageTabBar from "../../components/product-page-tab-bar";
 
 class ProductShow extends Component {
   config = {
@@ -130,6 +131,7 @@ class ProductShow extends Component {
           {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
           <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
           <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
+          <ProductPageTabBar />
         </View>
         }
       </View>
