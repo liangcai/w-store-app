@@ -14,10 +14,12 @@ class ProductPageActionSheet extends Component {
     actionText: '',
   }
 
+  handleClick(fstate) {
+    this.props.onClick(fstate)
+  }
 
   render() {
-    const { show, action, actionText } = this.props
-    console.log(`show: ${show}`)
+    const { show, action, actionText, fState } = this.props
     return (
       <View className='action-sheet'>
         <AtActionSheet isOpened={show}>
@@ -25,7 +27,7 @@ class ProductPageActionSheet extends Component {
             ActionSheet
           </View>
           <View className='action-sheet__action'>
-            <AtButton type={action}>{actionText}</AtButton>
+            <AtButton type={action} onClick={this.handleClick.bind(this, fState)}>{actionText}</AtButton>
           </View>
         </AtActionSheet>
       </View>

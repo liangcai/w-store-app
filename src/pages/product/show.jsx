@@ -141,6 +141,13 @@ class ProductShow extends Component {
     console.log(`actionSheet: ${this.state.actionSheet}`)
   }
 
+  onClickActionSheetAction(obj) {
+    this.setState({
+      actionSheet: false
+    })
+    console.log(`obj:`, obj)
+  }
+
   render() {
     const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab, actionSheet, actionSheetAction, actionSheetActionText} = this.state
     const tabList = [
@@ -170,6 +177,8 @@ class ProductShow extends Component {
             show={actionSheet}
             action={actionSheetAction}
             actionText={actionSheetActionText}
+            onClick={this.onClickActionSheetAction.bind(this)}
+            fState={this.state}
           />
         </View>
         }
