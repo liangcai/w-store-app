@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import { AtActionSheet, AtButton} from "taro-ui";
+import { View, Text, Image } from '@tarojs/components'
+import { AtActionSheet, AtButton } from "taro-ui";
 
 class ProductPageActionSheet extends Component {
 
@@ -14,20 +14,33 @@ class ProductPageActionSheet extends Component {
     actionText: '',
   }
 
-  handleClick(fstate) {
-    this.props.onClick(fstate)
+  handleClick(data) {
+    this.props.onClick(data)
   }
 
   render() {
-    const { show, action, actionText, fState } = this.props
+    const {show, action, actionText, data: product} = this.props
     return (
       <View className='action-sheet'>
         <AtActionSheet isOpened={show}>
-          <View className='p-3'>
-            ActionSheet
+          <View className='action-sheet__header p-3 mx-3 text-left'>
+            <Image
+              className='action-sheet__header-image mr-2'
+              src={product.images[0].src}
+              mode='aspectFill'
+            />
+            <View className='action-sheet__header-text'>
+              <View className='mb-2'>{product.name}</View>
+              <View>
+                {product.on_sale &&
+                <Text className='mr-2 text-muted text-through'>{'￥' + product.regular_price}</Text>
+                }
+                <Text>{'￥' + product.price}</Text>
+              </View>
+            </View>
           </View>
           <View className='action-sheet__action'>
-            <AtButton type={action} onClick={this.handleClick.bind(this, fState)}>{actionText}</AtButton>
+            <AtButton type={action} onClick={this.handleClick.bind(this, product)}>{actionText}</AtButton>
           </View>
         </AtActionSheet>
       </View>

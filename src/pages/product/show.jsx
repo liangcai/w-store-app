@@ -178,7 +178,7 @@ class ProductShow extends Component {
             action={actionSheetAction}
             actionText={actionSheetActionText}
             onClick={this.onClickActionSheetAction.bind(this)}
-            fState={this.state}
+            data={product}
           />
         </View>
         }
