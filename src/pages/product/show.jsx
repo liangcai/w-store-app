@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 // import { AtTabs, AtTabsPane, AtListItem, AtList } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
@@ -126,6 +126,7 @@ class ProductShow extends Component {
         {!placeholder &&
         <View>
           <ProductPageCard data={product} indicatorDots={indicatorDots} />
+          <Text className='material-icons' style='font-size: 48px; color: #645394'>account_circle</Text>
           <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
         </View>
         }
