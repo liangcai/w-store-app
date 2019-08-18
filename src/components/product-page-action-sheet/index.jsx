@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import { AtActionSheet, AtButton } from "taro-ui";
+import { AtActionSheet, AtButton, AtInputNumber } from "taro-ui";
 
 class ProductPageActionSheet extends Component {
 
@@ -14,12 +14,23 @@ class ProductPageActionSheet extends Component {
     actionText: '',
   }
 
-  handleClick(data) {
-    this.props.onClick(data)
+  state = {
+    quantity: '1'
+  }
+
+  handleClick() {
+    this.props.onClick(this.state)
+  }
+
+  handleChange(value) {
+    this.setState({
+      quantity: value
+    })
   }
 
   render() {
     const {show, action, actionText, data: product} = this.props
+    const {quantity} = this.state
     return (
       <View className='action-sheet'>
         <AtActionSheet isOpened={show}>
@@ -39,8 +50,25 @@ class ProductPageActionSheet extends Component {
               </View>
             </View>
           </View>
+          <View className='action-sheet__body text-left'>
+            <View className='action-sheet__list mb-3'>
+              <View className='action-sheet__list-item py-3 mx-3'>
+                <View className='action-sheet__list-item-title mb-2'>数量</View>
+                <View className='action-sheet__list-item-content'>
+                  <AtInputNumber
+                    type='number'
+                    min={1}
+                    max={10}
+                    step={1}
+                    value={quantity}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
           <View className='action-sheet__action'>
-            <AtButton type={action} onClick={this.handleClick.bind(this, product)}>{actionText}</AtButton>
+            <AtButton type={action} onClick={this.handleClick.bind(this)}>{actionText}</AtButton>
           </View>
         </AtActionSheet>
       </View>
