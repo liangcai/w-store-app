@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 // import { AtTabs, AtTabsPane, AtListItem, AtList } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
@@ -7,6 +7,7 @@ import ErrorPage from "../../components/error-page";
 // import RichTextWxParse from "../../components/rich-text-wx-parse";
 import ProductPageCard from "../../components/product-page-card";
 import ProductPageTab from "../../components/product-page-tab";
+import MaterialIcon from "../../components/material-icon";
 
 class ProductShow extends Component {
   config = {
@@ -126,7 +127,8 @@ class ProductShow extends Component {
         {!placeholder &&
         <View>
           <ProductPageCard data={product} indicatorDots={indicatorDots} />
-          <Text className='material-icons' style='font-size: 48px; color: #645394'>account_circle</Text>
+          {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
+          <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
           <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
         </View>
         }
