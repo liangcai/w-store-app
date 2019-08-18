@@ -13,7 +13,7 @@ import ProductPageActionSheet from "../../components/product-page-action-sheet";
 
 class ProductShow extends Component {
   config = {
-    navigationBarTitleText: "ProductShow",
+    navigationBarTitleText: "商品详情",
     enablePullDownRefresh: true,
     backgroundTextStyle: 'dark',
   }
@@ -148,7 +148,7 @@ class ProductShow extends Component {
     ]
 
     const page = (
-      <View>
+      <View className='pb-3'>
         <Placeholder className='m-3' show={placeholder} type='product' />
         {!placeholder &&
         <View>
@@ -156,15 +156,6 @@ class ProductShow extends Component {
           {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
           <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
           <ProductPageTab data={product} tabList={tabList} />
-          <ProductPageTabBar
-            primary='立即购买'
-            secondary='加入购物车'
-            icon='shopping_basket'
-            disabled={false}
-            disabledText='暂时无货'
-            onClick={this.onClickTabBar.bind(this)}
-            dot
-          />
           <ProductPageActionSheet
             show={actionSheet}
             action={actionSheetAction}
@@ -174,6 +165,15 @@ class ProductShow extends Component {
           />
         </View>
         }
+        <ProductPageTabBar
+          primary='立即购买'
+          secondary='加入购物车'
+          icon='shopping_basket'
+          disabled={false}
+          disabledText='暂时无货'
+          onClick={this.onClickTabBar.bind(this)}
+          dot
+        />
       </View>
     )
 
