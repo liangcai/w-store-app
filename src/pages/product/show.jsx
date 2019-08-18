@@ -24,7 +24,6 @@ class ProductShow extends Component {
     serviceError: false,
     errorPageMessage: '',
     indicatorDots: false,
-    activeTab: 0,
     actionSheet: false,
     actionSheetAction: '',
     actionSheetActionText: '',
@@ -112,13 +111,6 @@ class ProductShow extends Component {
     })
   }
 
-  onClickTab(activeTab) {
-    this.setState({
-      activeTab
-    })
-    console.log('修改activeTab', activeTab)
-  }
-
   onClickTabBar(item, itemText) {
     console.log(`点击：${item}`)
 
@@ -149,7 +141,7 @@ class ProductShow extends Component {
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab, actionSheet, actionSheetAction, actionSheetActionText} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, actionSheet, actionSheetAction, actionSheetActionText} = this.state
     const tabList = [
       {title: '描述'},
       {title: '参数'},
@@ -163,7 +155,7 @@ class ProductShow extends Component {
           <ProductPageCard data={product} indicatorDots={indicatorDots} />
           {/*<Text className='material-icons m-10' style='font-size: 48px; color: #645394'>account_circle</Text>*/}
           <MaterialIcon className='m-3' icon='face' size='24' color='#000' />
-          <ProductPageTab data={product} tabList={tabList} activeTab={activeTab} onClick={this.onClickTab.bind(this)} />
+          <ProductPageTab data={product} tabList={tabList} />
           <ProductPageTabBar
             primary='立即购买'
             secondary='加入购物车'
