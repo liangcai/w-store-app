@@ -26,6 +26,8 @@ class ProductShow extends Component {
     indicatorDots: false,
     activeTab: 0,
     actionSheet: false,
+    actionSheetAction: '',
+    actionSheetActionText: '',
   }
 
   constructor() {
@@ -117,18 +119,22 @@ class ProductShow extends Component {
     console.log('修改activeTab', activeTab)
   }
 
-  onClickTabBar(item) {
+  onClickTabBar(item, itemText) {
     console.log(`点击：${item}`)
 
     switch (item) {
       case 'primary':
         this.setState({
-          actionSheet: true
+          actionSheet: true,
+          actionSheetAction: item,
+          actionSheetActionText: itemText
         })
         break
       case 'secondary':
         this.setState({
-          actionSheet: true
+          actionSheet: true,
+          actionSheetAction: item,
+          actionSheetActionText: itemText
         })
         break
     }
@@ -136,7 +142,7 @@ class ProductShow extends Component {
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab, actionSheet} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, activeTab, actionSheet, actionSheetAction, actionSheetActionText} = this.state
     const tabList = [
       {title: '描述'},
       {title: '参数'},
@@ -160,7 +166,11 @@ class ProductShow extends Component {
             onClick={this.onClickTabBar.bind(this)}
             dot
           />
-          <ProductPageActionSheet show={actionSheet} />
+          <ProductPageActionSheet
+            show={actionSheet}
+            action={actionSheetAction}
+            actionText={actionSheetActionText}
+          />
         </View>
         }
       </View>
