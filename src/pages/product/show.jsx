@@ -133,11 +133,31 @@ class ProductShow extends Component {
     console.log(`actionSheet: ${this.state.actionSheet}`)
   }
 
+  addCartItem(item) {
+    console.log('addCartItem', item)
+    Taro.request({
+      method: 'POST',
+      url: `${API_WS}/cart-item`,
+      data: item,
+    })
+  }
+
   onClickActionSheetAction(obj) {
+    const {action, quantity} = obj
+    const {product} = this.state
+
+    console.log(`action: ${action} quantity: ${quantity}`)
+    switch (action) {
+      case 'secondary':
+        this.addCartItem({
+          product_id: product.id,
+          quantity
+        })
+        break
+    }
     this.setState({
       actionSheet: false
     })
-    console.log(`obj:`, obj)
   }
 
   render() {
@@ -158,7 +178,7 @@ class ProductShow extends Component {
           <ProductPageTab data={product} tabList={tabList} />
           <ProductPageActionSheet
             show={actionSheet}
-            action={actionSheetAction}
+            actionSheetAction={actionSheetAction}
             actionText={actionSheetActionText}
             onClick={this.onClickActionSheetAction.bind(this)}
             data={product}
