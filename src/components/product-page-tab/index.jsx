@@ -11,18 +11,29 @@ class ProductPageTab extends Component {
   static defaultProps = {
     data: {"attributes": []},
     tabList: [],
-    activeTab: 0,
     onClick: () => {}
   }
 
+  state = {
+    activeTab: 0,
+  }
+
+  handleClick(item) {
+    this.setState({
+      activeTab: item,
+    })
+    console.log('state', this.state)
+  }
+
   render() {
-    const {data: product, tabList, activeTab} = this.props
+    const {data: product, tabList} = this.props
+    const {activeTab} = this.state
     return (
       <View className='mx-3 my-5'>
         <AtTabs
           current={activeTab}
           tabList={tabList}
-          onClick={this.props.onClick}
+          onClick={this.handleClick.bind(this)}
         >
           <AtTabsPane className='mt-4' current={activeTab} index={0}>
             <RichTextWxParse content={product.description} />

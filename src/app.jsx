@@ -21,11 +21,11 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/product/show',
       'pages/shop/index',
       'pages/shop/cart',
       'pages/shop/profile',
-      'pages/index/index',
-      'pages/product/show'
+      'pages/index/index'
     ],
     window: {
       backgroundTextStyle: 'light',
