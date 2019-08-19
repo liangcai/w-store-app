@@ -27,6 +27,7 @@ class ProductShow extends Component {
     actionSheet: false,
     actionSheetAction: '',
     actionSheetActionText: '',
+    cartIndicator: false,
   }
 
   constructor() {
@@ -43,6 +44,7 @@ class ProductShow extends Component {
       serviceError: false,
       placeholder: true,
     }, () => {
+      this.getCart()
       this.fetchData({
         resource: 'products',
         id: this.id,
@@ -96,12 +98,34 @@ class ProductShow extends Component {
     })
   }
 
+  getCartSuccess(response) {
+    if (response.data.items.length > 0) {
+      this.setState({
+        cartIndicator: true
+      })
+    } else {
+      this.setState({
+        cartIndicator: false
+      })
+    }
+  }
+
+  getCart() {
+    this.fetchData({
+      resource: 'cart',
+      success: this.getCartSuccess.bind(this)
+    })
+  }
+
   componentWillMount() {
     if (this.name) {
       Taro.setNavigationBarTitle({
         title: this.name
       })
     }
+
+    this.getCart()
+
     this.fetchData({
       resource: 'products',
       id: this.id,
@@ -143,11 +167,16 @@ class ProductShow extends Component {
 
     switch (response.statusCode) {
       case 200:
+      case 201:
         Taro.atMessage({
           message: '操作成功',
           type: 'success'
         })
+        this.setState({
+          cartIndicator: true
+        })
         break
+
       default:
         Taro.atMessage({
           message: '操作失败',
@@ -176,7 +205,7 @@ class ProductShow extends Component {
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, actionSheet, actionSheetAction, actionSheetActionText} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, actionSheet, actionSheetAction, actionSheetActionText, cartIndicator} = this.state
     const tabList = [
       {title: '描述'},
       {title: '参数'},
@@ -207,7 +236,7 @@ class ProductShow extends Component {
           disabled={false}
           disabledText='暂时无货'
           onClick={this.onClickTabBar.bind(this)}
-          dot
+          dot={cartIndicator}
         />
       </View>
     )
