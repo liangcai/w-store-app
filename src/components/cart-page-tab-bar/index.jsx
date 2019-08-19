@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { AtBadge, AtButton } from "taro-ui";
 import MaterialIcon from "../material-icon";
 
@@ -37,7 +37,7 @@ class CartPageTabBar extends Component {
     } = this.props
 
     const iconItem = (
-      <View className='at-tab-bar__item tab-bar__item--icon' onClick={this.handleClick.bind(this, 'icon')}>
+      <View className='at-tab-bar__item tab-bar__icon' onClick={this.handleClick.bind(this, 'icon')}>
         <AtBadge dot={dot}>
           <View className='at-tab-bar__icon'>
             <MaterialIcon icon={icon} color='#000' />
@@ -63,7 +63,7 @@ class CartPageTabBar extends Component {
     )
 
     const textButtonItem = (
-      <View className='tab-bar__item tab-bar__item--text-button'>
+      <View className='tab-bar__item tab-bar__text-button'>
         <AtButton
           onClick={this.handleClick.bind(this, 'textButton', textButton)}
         >{textButton}
@@ -72,7 +72,7 @@ class CartPageTabBar extends Component {
     )
 
     const textItem = (
-      <View className='tab-bar__item tab-bar__item--text'>
+      <View className='tab-bar__item tab-bar__text'>
         {text && <Text className='text-muted'>{text}</Text>}
         {textPrimary && <Text className='text-bold ml-2'>{textPrimary}</Text>}
       </View>
