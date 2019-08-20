@@ -15,7 +15,8 @@ class ShopCart extends Component {
       total: 0,
       items: []
     },
-    selectedItems: []
+    selectedItems: [],
+    editing: false,
   }
 
   constructor() {
@@ -62,6 +63,28 @@ class ShopCart extends Component {
     return result.reduce((v1, v2) => v1 + v2, 0)
   }
 
+  onClickTabBar(type) {
+    switch (type) {
+      case 'textButton':
+        this.setState({
+          editing: true
+        })
+
+        Taro.setNavigationBarTitle({
+          title: '编辑购物车'
+        })
+        break
+      case 'textButtonAlt':
+        this.setState({
+          editing: false
+        })
+        Taro.setNavigationBarTitle({
+          title: '购物车'
+        })
+        break
+    }
+  }
+
   render() {
     const {cart, selectedItems} = this.state
 
@@ -84,6 +107,8 @@ class ShopCart extends Component {
     //   <AtCheckbox options={items} selectedList={selectedItems} onChange={this.onChangeCartItem.bind(this)}/>
     //   </View>
     // )
+
+
     return (
       <View className='pb-5'>
         <CartItemList
@@ -100,6 +125,7 @@ class ShopCart extends Component {
           textButtonAlt='完成'
           text={tabBarText}
           textPrimary={tabBarTextPrimary}
+          onClick={this.onClickTabBar.bind(this)}
         />
       </View>
     )
