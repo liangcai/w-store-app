@@ -9,6 +9,10 @@ class CartPageTabBar extends Component {
     addGlobalClass: true
   }
 
+  state = {
+    altTextButton: false,
+  }
+
   static defaultProps = {
     className: '',
     primary: '',
@@ -20,7 +24,20 @@ class CartPageTabBar extends Component {
     onClick: ()=>{ }
   }
 
-  handleClick() {
+  handleClick(type, value) {
+    console.log('value:::', value)
+    switch (type) {
+      case 'textButton':
+        this.setState({
+          altTextButton: true
+        })
+        break
+      case 'textButtonAlt':
+        this.setState({
+          altTextButton: false
+        })
+        break
+    }
     this.props.onClick(...arguments)
   }
 
@@ -33,11 +50,14 @@ class CartPageTabBar extends Component {
       dot,
       textButton,
       text,
-      textPrimary
+      textPrimary,
+      textButtonAlt,
     } = this.props
 
+    const {altTextButton} = this.state
+
     const iconItem = (
-      <View className='at-tab-bar__item tab-bar__icon' onClick={this.handleClick.bind(this, 'icon')}>
+      <View className='at-tab-bar__item tab-bar__icon' onClick={this.handleClick.bind(this, 'icon', icon)}>
         <AtBadge dot={dot}>
           <View className='at-tab-bar__icon'>
             <MaterialIcon icon={icon} color='#000' />
@@ -71,6 +91,15 @@ class CartPageTabBar extends Component {
       </View>
     )
 
+    const textButtonAltItem = (
+      <View className='tab-bar__item tab-bar__text-button'>
+        <AtButton
+          onClick={this.handleClick.bind(this, 'textButtonAlt', textButtonAlt)}
+        >{textButtonAlt}
+        </AtButton>
+      </View>
+    )
+
     const textItem = (
       <View className='tab-bar__item tab-bar__text'>
         {text && <Text className='text-muted'>{text}</Text>}
@@ -83,7 +112,8 @@ class CartPageTabBar extends Component {
         <View className='at-tab-bar at-tab-bar--fixed tab-bar'>
           {icon && iconItem}
           {(text || textPrimary) && textItem}
-          {textButton && textButtonItem}
+          {!altTextButton && textButton && textButtonItem}
+          {altTextButton && textButton && textButtonAltItem}
           {secondary && secondaryItem}
           {primary && primaryItem}
         </View>
