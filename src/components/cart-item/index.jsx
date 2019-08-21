@@ -8,7 +8,6 @@ class CartItem extends Component {
   constructor() {
     super(...arguments)
     this.state = {
-      value: this.props.item.quantity,
       selectStatus: false,
     }
   }
@@ -21,11 +20,6 @@ class CartItem extends Component {
     editing: false,
     selected: []
   }
-
-  // state = {
-  //   value: 1,
-  //   selectStatus: false
-  // }
 
   handleClick(type, selectStatus) {
     this.setState({
@@ -47,12 +41,7 @@ class CartItem extends Component {
   }
 
   handleChangeInput(id, value) {
-    console.log('handleChangeInput', value, id)
-    this.setState({
-      value: value
-    }, () => {
-      this.props.onChange('input', value, id)
-    })
+    this.props.onChange('input', value, id)
   }
 
   render() {
@@ -65,7 +54,7 @@ class CartItem extends Component {
         quantity: quantity,
         total: total,
       } = item
-      const {selectStatus, value} = this.state
+      const {selectStatus} = this.state
       const classValue = classNames('list__item', {
         'at-checkbox__option--selected': selectStatus
       })
@@ -89,7 +78,7 @@ class CartItem extends Component {
           min={1}
           max={100}
           step={1}
-          value={value}
+          value={quantity}
           className='my-2'
           onChange={this.handleChangeInput.bind(this, product_id)}
         />
