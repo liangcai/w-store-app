@@ -31,7 +31,7 @@ class ProductPageTabBar extends Component {
     const {primary, secondary, icon, disabled, disabledText, dot} = this.props
 
     const iconItem = (
-      <View className='at-tab-bar__item tab-bar__item--icon' onClick={this.handleClick.bind(this, 'icon')}>
+      <View className='at-tab-bar__item tab-bar__icon' onClick={this.handleClick.bind(this, 'icon')}>
         <AtBadge dot={dot}>
           <View className='at-tab-bar__icon'>
             <MaterialIcon icon={icon} color='#000' />

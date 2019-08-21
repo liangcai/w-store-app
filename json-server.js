@@ -80,6 +80,13 @@ const clearCart = () => {
   return result
 }
 
+server.get('/shopping-cart', (req, res) => {
+  const cart = db.get('cart')
+    .value()
+
+  res.jsonp(cart)
+})
+
 server.post('/cart-item', (req, res) => {
   const product_id = parseInt(req.body.product_id, 10)
   const quantity = parseInt(req.body.quantity, 10)
@@ -110,13 +117,13 @@ server.post('/cart-item', (req, res) => {
     item.total = total + parseInt(result.total)
 
     updateCartItem(product_id, item)
+    updateCartTotal()
+    res.jsonp('success')
   } else {
     addCartItem(item)
     res.sendStatus('201')
+    updateCartTotal()
   }
-
-  updateCartTotal()
-  res.jsonp('success')
 })
 
 server.patch('/cart-item/:id', (req, res) => {
@@ -151,7 +158,44 @@ server.patch('/cart-item/:id', (req, res) => {
   updateCartItem(id, item)
   updateCartTotal()
 
-  res.sendStatus(200)
+  // res.sendStatus(200)
+  res.json(item)
+})
+
+server.put('/cart-item/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+  const quantity = parseInt(req.body.quantity)
+  const product = getProduct(id)
+
+  if (!product) {
+    res.sendStatus('404')
+    return
+  }
+
+  const result = getCartItem(id)
+
+  if (!result) {
+    res.sendStatus('404')
+    return
+  }
+
+  const {name, price, images} = product
+  const total = parseInt(price) * parseInt(quantity)
+
+  let item = {
+    product_id: id,
+    name,
+    image: images[0].src,
+    price,
+    quantity,
+    total
+  }
+
+  updateCartItem(id, item)
+  updateCartTotal()
+
+  // res.sendStatus(200)
+  res.json(item)
 })
 
 server.delete('/cart-item/:id', (req, res) => {

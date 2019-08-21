@@ -15,11 +15,17 @@ class ProductPageActionSheet extends Component {
   }
 
   state = {
-    quantity: '1'
+    quantity: '1',
+    action: ''
   }
 
-  handleClick() {
-    this.props.onClick(this.state)
+  handleClick(action) {
+    console.log('组件上获取的', this.state)
+    this.setState({
+      action
+    }, () => {
+      this.props.onClick(this.state)
+    })
   }
 
   handleChange(value) {
@@ -29,8 +35,9 @@ class ProductPageActionSheet extends Component {
   }
 
   render() {
-    const {show, action, actionText, data: product} = this.props
+    const {show, actionSheetAction, actionText, data: product} = this.props
     const {quantity} = this.state
+
     return (
       <View className='action-sheet'>
         <AtActionSheet isOpened={show}>
@@ -68,7 +75,7 @@ class ProductPageActionSheet extends Component {
             </View>
           </View>
           <View className='action-sheet__action'>
-            <AtButton type={action} onClick={this.handleClick.bind(this)}>{actionText}</AtButton>
+            <AtButton type={actionSheetAction} onClick={this.handleClick.bind(this, actionSheetAction)}>{actionText}</AtButton>
           </View>
         </AtActionSheet>
       </View>

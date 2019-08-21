@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-// import { AtTabs, AtTabsPane, AtListItem, AtList } from "taro-ui";
+import { AtMessage } from "taro-ui";
 import fetchData from "../../utilities/fetch-data";
 import Placeholder from "../../components/placeholder";
 import ErrorPage from "../../components/error-page";
@@ -27,6 +27,7 @@ class ProductShow extends Component {
     actionSheet: false,
     actionSheetAction: '',
     actionSheetActionText: '',
+    cartIndicator: false,
   }
 
   constructor() {
@@ -43,6 +44,7 @@ class ProductShow extends Component {
       serviceError: false,
       placeholder: true,
     }, () => {
+      this.getCart()
       this.fetchData({
         resource: 'products',
         id: this.id,
@@ -96,12 +98,34 @@ class ProductShow extends Component {
     })
   }
 
+  getCartSuccess(response) {
+    if (response.data.items.length > 0) {
+      this.setState({
+        cartIndicator: true
+      })
+    } else {
+      this.setState({
+        cartIndicator: false
+      })
+    }
+  }
+
+  getCart() {
+    this.fetchData({
+      resource: 'cart',
+      success: this.getCartSuccess.bind(this)
+    })
+  }
+
   componentWillMount() {
     if (this.name) {
       Taro.setNavigationBarTitle({
         title: this.name
       })
     }
+
+    this.getCart()
+
     this.fetchData({
       resource: 'products',
       id: this.id,
@@ -115,6 +139,11 @@ class ProductShow extends Component {
     console.log(`点击：${item}`)
 
     switch (item) {
+      case'icon':
+        Taro.switchTab({
+          url: '/pages/shop/cart'
+        })
+        break
       case 'primary':
         this.setState({
           actionSheet: true,
@@ -133,15 +162,55 @@ class ProductShow extends Component {
     console.log(`actionSheet: ${this.state.actionSheet}`)
   }
 
+  async addCartItem(item) {
+    console.log('addCartItem', item)
+    const response = await Taro.request({
+      method: 'POST',
+      url: `${API_WS}/cart-item`,
+      data: item,
+    })
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        Taro.atMessage({
+          message: '操作成功',
+          type: 'success'
+        })
+        this.setState({
+          cartIndicator: true
+        })
+        break
+
+      default:
+        Taro.atMessage({
+          message: '操作失败',
+          type: 'error'
+        })
+        break
+    }
+  }
+
   onClickActionSheetAction(obj) {
+    const {action, quantity} = obj
+    const {product} = this.state
+
+    console.log(`action: ${action} quantity: ${quantity}`)
+    switch (action) {
+      case 'secondary':
+        this.addCartItem({
+          product_id: product.id,
+          quantity
+        })
+        break
+    }
     this.setState({
       actionSheet: false
     })
-    console.log(`obj:`, obj)
   }
 
   render() {
-    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, actionSheet, actionSheetAction, actionSheetActionText} = this.state
+    const {product, placeholder, serviceError, errorPageMessage, indicatorDots, actionSheet, actionSheetAction, actionSheetActionText, cartIndicator} = this.state
     const tabList = [
       {title: '描述'},
       {title: '参数'},
@@ -158,7 +227,7 @@ class ProductShow extends Component {
           <ProductPageTab data={product} tabList={tabList} />
           <ProductPageActionSheet
             show={actionSheet}
-            action={actionSheetAction}
+            actionSheetAction={actionSheetAction}
             actionText={actionSheetActionText}
             onClick={this.onClickActionSheetAction.bind(this)}
             data={product}
@@ -172,7 +241,7 @@ class ProductShow extends Component {
           disabled={false}
           disabledText='暂时无货'
           onClick={this.onClickTabBar.bind(this)}
-          dot
+          dot={cartIndicator}
         />
       </View>
     )
@@ -183,6 +252,7 @@ class ProductShow extends Component {
 
     return (
       <view>
+        <AtMessage />
         {serviceError ? errorPage : page}
       </view>
     )
