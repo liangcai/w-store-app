@@ -45,12 +45,18 @@ class ShopCart extends Component {
     this.getCart()
   }
 
-  onChangeCartItem(value) {
-    this.setState({
-      selectedItems: value
-    }, () => {
-      console.log(this.state.selectedItems)
-    })
+  onChangeCartItem(type, value) {
+    switch (type) {
+      case 'checkbox':
+        this.setState({
+          selectedItems: value
+        })
+
+        break
+      case 'input':
+        console.log(type, value)
+        break
+    }
   }
 
   sumItems(items, compareItems, compare, prop) {
@@ -86,13 +92,14 @@ class ShopCart extends Component {
   }
 
   render() {
-    const {cart, selectedItems} = this.state
+    const {cart, selectedItems, editing} = this.state
 
     const quantity = this.sumItems(cart.items, selectedItems, 'product_id', 'quantity')
     const total = this.sumItems(cart.items, selectedItems, 'product_id', 'total')
 
     const tabBarText = `(${quantity}) 件`
     const tabBarTextPrimary = `￥${total}`
+    console.log('cart.state', this.state)
     // const items = cart.items.map(item => {
     //   const {product_id, name, price, quantity, total} = item
     //   return {
@@ -116,6 +123,7 @@ class ShopCart extends Component {
           selected={selectedItems}
           onChange={this.onChangeCartItem.bind(this)}
           className='mb-5'
+          editing={editing}
         />
         <CartPageTabBar
           primary='提交订单'
