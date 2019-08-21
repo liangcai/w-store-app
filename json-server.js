@@ -158,7 +158,8 @@ server.patch('/cart-item/:id', (req, res) => {
   updateCartItem(id, item)
   updateCartTotal()
 
-  res.sendStatus(200)
+  // res.sendStatus(200)
+  res.json(item)
 })
 
 server.put('/cart-item/:id', (req, res) => {
@@ -184,7 +185,7 @@ server.put('/cart-item/:id', (req, res) => {
   let item = {
     product_id: id,
     name,
-    image: image[0].src,
+    image: images[0].src,
     price,
     quantity,
     total
@@ -193,7 +194,8 @@ server.put('/cart-item/:id', (req, res) => {
   updateCartItem(id, item)
   updateCartTotal()
 
-  res.sendStatus(200)
+  // res.sendStatus(200)
+  res.json(item)
 })
 
 server.delete('/cart-item/:id', (req, res) => {

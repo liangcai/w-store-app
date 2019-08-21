@@ -45,7 +45,38 @@ class ShopCart extends Component {
     this.getCart()
   }
 
-  onChangeCartItem(type, value) {
+  async updateCartItem (id, value) {
+    const response = await Taro.request({
+      method: 'PUT',
+      url: `${API_WS}/cart-item/${id}`,
+      data: {
+        quantity: value
+      }
+    })
+
+    switch (response.statusCode) {
+      case 200:
+        const {cart} = this.state
+
+        const newItem = cart.items.map(item => {
+          if (item.product_id === id) {
+            item = response.data
+          }
+          return item
+        })
+        console.log('newItem', newItem, 'cart', cart)
+        const newCart = {
+          ...cart,
+          items: newItem
+        }
+
+        this.setState({
+          cart: newCart
+        })
+    }
+  }
+
+  onChangeCartItem(type, value, id) {
     switch (type) {
       case 'checkbox':
         this.setState({
@@ -54,7 +85,8 @@ class ShopCart extends Component {
 
         break
       case 'input':
-        console.log(type, value)
+        console.log(type, value, id)
+        this.updateCartItem(id, value)
         break
     }
   }
