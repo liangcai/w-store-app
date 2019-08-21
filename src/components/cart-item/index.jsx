@@ -18,7 +18,7 @@ class CartItem extends Component {
   static defaultProps = {
     item: {},
     editing: false,
-    selected: []
+    selected: [],
   }
 
   handleClick(type, selectStatus) {
@@ -68,7 +68,7 @@ class CartItem extends Component {
       )
 
       const removeItem = (
-        <View className='list__item-checkbox'>
+        <View className='list__item-checkbox' onClick={this.props.onChange.bind(this, 'remove', product_id)}>
           <MaterialIcon icon='remove_circle' size='24' className='mt-2' />
         </View>
       )

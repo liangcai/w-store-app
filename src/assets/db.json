@@ -1,6 +1,6 @@
 {
   "cart": {
-    "total": 2460,
+    "total": 1808,
     "items": [
       {
         "product_id": 1,
@@ -11,12 +11,20 @@
         "total": 858
       },
       {
+        "product_id": 4,
+        "name": "埃塞俄比亚赛其索咖啡豆",
+        "image": "https://resources.ninghao.net/w-store/images/ethiopia.jpg",
+        "price": "198",
+        "quantity": 3,
+        "total": 594
+      },
+      {
         "product_id": 2,
         "name": "哥斯达黎加纳兰诺咖啡豆",
         "image": "https://resources.ninghao.net/w-store/images/costa-rica-naranjo.jpg",
         "price": "178",
-        "quantity": 9,
-        "total": 1602
+        "quantity": 2,
+        "total": 356
       }
     ]
   },
