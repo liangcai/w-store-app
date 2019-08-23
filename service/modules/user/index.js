@@ -60,6 +60,15 @@ const getWxSession = async (code) => {
   }
 }
 
+const getUserByOpenid = (openid) => {
+  const result = db.get('users')
+    .filter({weixin: {openid}})
+    .first()
+    .value()
+
+  return result
+}
+
 // 用户注册
 router.post('/users', (req, res, next) => {
   const {username, password} = req.body
@@ -118,7 +127,11 @@ router.post('/wx-login', async (req, res) => {
 
   try {
     const sessionData = await getWxSession(code)
-    console.log('sessionData: ', sessionData)
+    const user = getUserByOpenid(sessionData.openid)
+
+    if (!user) {
+      res.status(404).jsonp('还没有绑定微信账户。')
+    }
 
     res.jsonp('ok')
   } catch (error) {
