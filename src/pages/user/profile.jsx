@@ -10,6 +10,17 @@ class UserProfile extends Component {
     username: ''
   }
 
+  constructor() {
+    super(...arguments)
+    Taro.eventCenter.on('user::logged_in', this.fetchUserData.bind(this))
+  }
+
+  fetchUserData(user) {
+    this.setState({
+      username: user.username
+    })
+  }
+
   async componentWillMount() {
     try {
       const tokensStorage = await Taro.getStorage({

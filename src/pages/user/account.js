@@ -35,6 +35,7 @@ class UserAccount extends Component {
           data: response.data
         })
 
+        Taro.eventCenter.trigger('user::logged_in', response.data)
         Taro.navigateBack()
 
         break
@@ -90,7 +91,7 @@ class UserAccount extends Component {
           type='primary'
           onClick={this.handleClick.bind(this, 'login')}
           className='mt-5'
-        />
+        >登录</AtButton>
       </View>
     )
   }
