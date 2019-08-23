@@ -139,6 +139,27 @@ class UserAccount extends Component {
     }
   }
 
+  async wxUserInfo() {
+    try {
+      // Taro.getUserInfo() 直接获取到微信用户数据
+      const userInfo = await Taro.getUserInfo()
+      return userInfo
+    } catch (error) {
+      throw new Error(error.err.errMsg)
+    }
+  }
+
+  async wxUserBind() {
+    console.log('bind weixin user')
+
+    try {
+      const userInfo = await this.wxUserInfo()
+      console.log('userInfo', userInfo)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   async wxUserLogin(){
     console.log('微信登录')
     const code = await this.wxLoginCode()
@@ -155,6 +176,12 @@ class UserAccount extends Component {
         }
       })
       console.log('wxUserLogin/response', response)
+      // 服务端定义404是还未绑定微信账户，所以需要绑定和获取用户数据
+      switch (response.statusCode) {
+        case 404:
+          this.wxUserBind()
+          break
+      }
     } catch (error) {
       Taro.atMessage({
         type: 'error',
