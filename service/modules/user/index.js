@@ -74,7 +74,7 @@ const getUserByOpenid = (openid) => {
 router.post('/users', (req, res, next) => {
   const {username, password} = req.body
   const user = getUserByName(username)
-
+  console.log('用户注册接口被调用了', user, password)
   if (user) {
     res.status(409).jsonp('用户名被占用了')
     return
@@ -153,7 +153,7 @@ router.post('/wx-login', async (req, res) => {
 router.post('/wx-bind', async (req, res) => {
   db.read()
   const {username, password, wxUserInfo, code} = req.body
-
+  console.log('wx-bind: ', username, password, wxUserInfo, code)
   //查找绑定用户名是否存在
   const user = getUserByName(username)
   if (!user) {
