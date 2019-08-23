@@ -19,7 +19,7 @@ class UserAccount extends Component {
   }
 
   async userLogin() {
-    const { username, password} = this.state
+    const {username, password} = this.state
 
     const response = await Taro.request({
       method: 'POST',
@@ -73,7 +73,7 @@ class UserAccount extends Component {
       }
     })
 
-    switch(response.statusCode) {
+    switch (response.statusCode) {
       case 201:
         this.userLogin()
         break
@@ -120,7 +120,14 @@ class UserAccount extends Component {
           submitButtonText: '登录'
         })
         break
+      case 'wxlogin':
+        this.wxUserLogin()
+        break
     }
+  }
+
+  async wxUserLogin(){
+    console.log('微信登录')
   }
 
   render() {
@@ -138,6 +145,14 @@ class UserAccount extends Component {
         className='px-2'
         onClick={this.handleClickText.bind(this, 'login')}
       >登录
+      </Text>
+    )
+
+    const wxLoginText = (
+      <Text
+        className='px-2'
+        onClick={this.handleClickText.bind(this, 'wxlogin')}
+      >微信登录
       </Text>
     )
 
@@ -167,7 +182,9 @@ class UserAccount extends Component {
         >{submitButtonText}</AtButton>
         <View className='mt-3 text-center text-muted'>
           {action === 'login' && registerText}
-          {action ==='register' && loginText}
+          {action === 'register' && loginText}
+          /
+          {wxLoginText}
         </View>
       </View>
     )
