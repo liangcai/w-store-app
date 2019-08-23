@@ -5,4 +5,5 @@ deploy_versions/
 node_modules/
 .DS_Store
 .idea/
+# 使用 `git update-index --assume-unchanged .env` 忽略本地.env文件的修改，不会提交到仓库， 已提交到仓库的文件.ignore就没用了，但是为了开发方便，还是保留了.env格式
 .env
