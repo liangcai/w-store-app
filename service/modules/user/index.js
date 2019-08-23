@@ -1,4 +1,5 @@
 /* eslint-disable import/no-commonjs */
+require('dotenv').config()
 const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -89,6 +90,7 @@ router.post('/token/validate', authMiddleware, (req, res) => {
 
 // 微信登录
 router.post('/wx-login', (req, res) => {
+  const {WX_APP_ID, WX_SECRET} = process.env
   const {code} = req.body
 
   if (!code) {
@@ -96,6 +98,7 @@ router.post('/wx-login', (req, res) => {
   }
 
   console.log('登录凭证: ', code)
+  console.log(WX_APP_ID, WX_SECRET)
 })
 
 module.exports = router
