@@ -61,10 +61,39 @@ class UserAccount extends Component {
     })
   }
 
+  async userRegister() {
+    const {username, password} = this.state
+
+    const response = await Taro.request({
+      method: 'POST',
+      url: `${API_WS}/users`,
+      data: {
+        username,
+        password
+      }
+    })
+
+    switch(response.statusCode) {
+      case 201:
+        this.userLogin()
+        break
+      case 409:
+        Taro.atMessage({
+          type: 'error',
+          message: response.data
+        })
+        break
+    }
+  }
+
+
   handleClick(field) {
     switch (field) {
       case 'login':
         this.userLogin(this)
+        break
+      case 'register':
+        this.userRegister(this)
         break
     }
   }

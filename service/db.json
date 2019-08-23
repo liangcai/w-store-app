@@ -38,6 +38,11 @@
       "username": "zhao1",
       "password": "$2b$10$dXidWdafhqUQLmiT90KBaOC0GPxXvrrgyB5fYQxy0oiDzCMEaZe56",
       "id": 2
+    },
+    {
+      "username": "zhao2",
+      "password": "$2b$10$ym/kpyeNHAoH7yXtouDVluX1/Nve3wl093RUxz0sh4MNAC9nNjihu",
+      "id": 3
     }
   ],
   "products": [
