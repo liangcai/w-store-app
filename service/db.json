@@ -28,6 +28,13 @@
       }
     ]
   },
+  "users": [
+    {
+      "username": "zhao",
+      "password": "$2b$10$KNKJFT4JuZM99Mvt/nBy/OsMSroGyDPWd.Ja1415LTXWFFlR9BBRi",
+      "id": 1
+    }
+  ],
   "products": [
     {
       "id": 1,
