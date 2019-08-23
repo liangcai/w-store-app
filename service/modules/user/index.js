@@ -137,7 +137,13 @@ router.post('/wx-login', async (req, res) => {
       return
     }
 
-    res.jsonp('ok')
+    const token = signToken(user)
+
+    res.jsonp({
+      id: user.id,
+      username: user.name,
+      token
+    })
   } catch (error) {
     res.status(500).jsonp(error.message)
   }

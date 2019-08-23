@@ -263,6 +263,15 @@ class UserAccount extends Component {
       console.log('wxUserLogin/response', response)
       // 服务端定义404是还未绑定微信账户，所以需要绑定和获取用户数据
       switch (response.statusCode) {
+        case 200:
+          await Taro.setStorage({
+            key: 'token',
+            data: response.data
+          })
+
+          Taro.eventCenter.trigger('user::logged_in', response.data)
+          Taro.navigateBack()
+          break
         case 404:
           this.wxUserBind()
           break
