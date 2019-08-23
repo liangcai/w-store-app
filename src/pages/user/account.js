@@ -34,6 +34,9 @@ class UserAccount extends Component {
           key: 'token',
           data: response.data
         })
+
+        Taro.navigateBack()
+
         break
       case 404:
         Taro.atMessage({

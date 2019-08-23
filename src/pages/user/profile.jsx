@@ -6,11 +6,23 @@ class UserProfile extends Component {
     navigationBarTitleText: "我的信息"
   }
 
+  state = {
+    username: ''
+  }
+
   async componentWillMount() {
     try {
-      await Taro.getStorage({
+      const tokensStorage = await Taro.getStorage({
         key: 'token'
       })
+
+      const { username } = tokensStorage.data
+
+      if (username) {
+        this.setState({
+          username
+        })
+      }
     } catch (error) {
       Taro.navigateTo({
         url: '/pages/user/account'
@@ -19,10 +31,11 @@ class UserProfile extends Component {
   }
 
   render() {
+    const { username } = this.state
     return (
       <View>
       <View className='page-demo'>
-        UserProfile
+        {username ? username : 'UserProfile'}
       </View>
       </View>
     )
