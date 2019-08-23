@@ -49,6 +49,11 @@ const getWxSession = async (code) => {
 
   try {
     const response = await http.get(url)
+
+    if (response.data.errcode) {
+      throw new Error()
+    }
+
     return response.data
   } catch (error) {
     throw new Error('获取微信登录会话失败！')
