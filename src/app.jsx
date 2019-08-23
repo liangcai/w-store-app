@@ -23,6 +23,7 @@ class App extends Component {
     pages: [
       'pages/user/profile',
       'pages/user/account',
+      'pages/user/settings',
       'pages/shop/cart',
       'pages/product/show',
       'pages/shop/index',

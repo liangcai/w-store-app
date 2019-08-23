@@ -13,6 +13,11 @@ class UserProfile extends Component {
   constructor() {
     super(...arguments)
     Taro.eventCenter.on('user::logged_in', this.fetchUserData.bind(this))
+    Taro.eventCenter.on('user::logged_out', ()=>{
+      this.setState({
+        username: ''
+      })
+    })
   }
 
   fetchUserData(user) {
@@ -41,12 +46,24 @@ class UserProfile extends Component {
     }
   }
 
+  handleClick(item) {
+    switch(item) {
+      case 'settings':
+        Taro.navigateTo({
+          url: '/pages/user/settings'
+        })
+        break
+    }
+  }
+
   render() {
     const { username } = this.state
     return (
       <View>
       <View className='page-demo'>
-        {username ? username : 'UserProfile'}
+        <View onClick={this.handleClick.bind(this, 'settings')}>
+          {username ? username : 'UserProfile'}
+        </View>
       </View>
       </View>
     )
