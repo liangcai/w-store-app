@@ -6,6 +6,17 @@ class UserProfile extends Component {
     navigationBarTitleText: "我的信息"
   }
 
+  async componentWillMount() {
+    try {
+      await Taro.getStorage({
+        key: 'token'
+      })
+    } catch (error) {
+      Taro.navigateTo({
+        url: '/pages/user/account'
+      })
+    }
+  }
 
   render() {
     return (

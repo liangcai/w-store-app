@@ -21,10 +21,11 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/user/profile',
+      'pages/user/account',
       'pages/shop/cart',
       'pages/product/show',
       'pages/shop/index',
-      'pages/shop/profile',
       'pages/index/index'
     ],
     window: {
@@ -51,7 +52,7 @@ class App extends Component {
           text: '商店'
         },
         {
-          pagePath: 'pages/shop/profile',
+          pagePath: 'pages/user/profile',
           iconPath: 'assets/icons/profile.png',
           selectedIconPath: 'assets/icons/profile-active.png',
           text: '商店'
