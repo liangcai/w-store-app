@@ -32,7 +32,19 @@
     {
       "username": "zhao",
       "password": "$2b$10$KNKJFT4JuZM99Mvt/nBy/OsMSroGyDPWd.Ja1415LTXWFFlR9BBRi",
-      "id": 1
+      "id": 1,
+      "weixin": {
+        "openid": "or9ts1LYC3WHOC1KjH_PhtgC3VI8",
+        "userInfo": {
+          "nickName": "walker_今夕何夕",
+          "gender": 1,
+          "language": "zh_CN",
+          "city": "Shenzhen",
+          "province": "Guangdong",
+          "country": "China",
+          "avatarUrl": "https://wx.qlogo.cn/mmopen/vi_32/hOR0f4xjXB2BcNcpBJy5qjH12h1G35lA1xozrVdianGicCFEXETgzabw7ickicOT54y75UlMVnAc6tpm0DoM8jJIog/132"
+        }
+      }
     },
     {
       "username": "zhao1",
