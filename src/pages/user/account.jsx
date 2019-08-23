@@ -154,6 +154,7 @@ class UserAccount extends Component {
           code
         }
       })
+      console.log('wxUserLogin/response', response)
     } catch (error) {
       Taro.atMessage({
         type: 'error',
