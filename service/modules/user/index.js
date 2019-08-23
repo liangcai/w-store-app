@@ -161,7 +161,7 @@ router.post('/wx-bind', async (req, res) => {
     return
   }
   // 确定用户是否已经绑定了某个微信
-  if (_.has(user, 'wexin.openid')) {
+  if (_.has(user, 'weixin.openid')) {
     res.status(403).jsonp('这个用户已经绑定了微信账户。')
     return
   }
