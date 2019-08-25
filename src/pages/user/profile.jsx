@@ -1,5 +1,5 @@
-import Taro, {Component} from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import Taro, { Component } from '@tarojs/taro'
+import { View, Text, Image } from '@tarojs/components'
 
 class UserProfile extends Component {
   config = {
@@ -7,22 +7,25 @@ class UserProfile extends Component {
   }
 
   state = {
-    username: ''
+    username: '',
+    avatar: '',
   }
 
   constructor() {
     super(...arguments)
     Taro.eventCenter.on('user::logged_in', this.fetchUserData.bind(this))
-    Taro.eventCenter.on('user::logged_out', ()=>{
+    Taro.eventCenter.on('user::logged_out', () => {
       this.setState({
-        username: ''
+        username: '',
+        avatar: '',
       })
     })
   }
 
   fetchUserData(user) {
     this.setState({
-      username: user.username
+      username: user.username,
+      avatar: user.avatar,
     })
   }
 
@@ -32,11 +35,12 @@ class UserProfile extends Component {
         key: 'token'
       })
 
-      const { username } = tokensStorage.data
+      const {username, avatar} = tokensStorage.data
 
       if (username) {
         this.setState({
-          username
+          username,
+          avatar,
         })
       }
     } catch (error) {
@@ -47,24 +51,52 @@ class UserProfile extends Component {
   }
 
   handleClick(item) {
-    switch(item) {
+    switch (item) {
       case 'settings':
         Taro.navigateTo({
           url: '/pages/user/settings'
         })
         break
+      case 'login':
+        Taro.navigateTo({
+          url: '/pages/user/account'
+        })
     }
   }
 
   render() {
-    const { username } = this.state
+    const {username, avatar} = this.state
+
+    const usernameItem = (
+      <View onClick={this.handleClick.bind(this, 'setting')}>
+        <Text className='text-bold'>{username}</Text>
+      </View>
+    )
+
+    const avatarItem = (
+      <View onClick={this.handleClick.bind(this, 'setting')}>
+        <Image
+          src={avatar}
+          className='avatar'
+        />
+      </View>
+    )
+
+    const loginTextItem = (
+      <View onClick={this.handleClick.bind(this, 'login')}>
+        <Text>登录 / 注册</Text>
+      </View>
+    )
+
     return (
       <View>
-      <View className='page-demo'>
-        <View onClick={this.handleClick.bind(this, 'settings')}>
-          {username ? username : 'UserProfile'}
+        <View className='page-demo'>
+          <View>
+            {avatar && avatarItem}
+            {username && usernameItem}
+            {!username && loginTextItem}
+          </View>
         </View>
-      </View>
       </View>
     )
   }

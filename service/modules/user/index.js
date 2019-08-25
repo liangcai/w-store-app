@@ -100,10 +100,17 @@ router.post('/user-login', (req, res) =>{
   bcrypt.compare(password, user.password)
     .then(result => {
       if (result) {
+        let avatar = ''
+
+        if (_.has(user, 'weixin.userInfo.avatarUrl')) {
+          avatar = user.weixin.userInfo.avatarUrl
+        }
+
         const token = signToken(user)
         res.jsonp({
           id: user.id,
           username: user.username,
+          avatar,
           token
         })
       } else {
@@ -137,11 +144,19 @@ router.post('/wx-login', async (req, res) => {
       return
     }
 
+    let avatar = ''
+
+    if (_.has(user, 'weixin.userInfo.avatarUrl')) {
+      avatar = user.weixin.userInfo.avatarUrl
+    }
+
+
     const token = signToken(user)
 
     res.jsonp({
       id: user.id,
-      username: user.name,
+      username: user.username,
+      avatar,
       token
     })
   } catch (error) {
@@ -191,10 +206,18 @@ router.post('/wx-bind', async (req, res) => {
     .write()
 
   // 让用户登录
+
+  let avatar = ''
+
+  if (_.has(user, 'weixin.userInfo.avatarUrl')) {
+    avatar = user.weixin.userInfo.avatarUrl
+  }
+
   const token = signToken(user)
   res.jsonp({
     id: user.id,
     username: user.username,
+    avatar,
     token
   })
 })
